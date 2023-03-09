@@ -1,0 +1,26 @@
+Actions:
+- user
+	- register
+	- login
+	- dashboard
+		- view my orders
+		- view all orders
+		- create/update customer
+- admin
+	- register
+	- login
+	- dashboard
+		- create/update/delete dress (design and dress type)
+		- create/update/delete user
+		- delete customer
+
+
+
+API routes
+
+/api/users/login
+/api/users/register
+
+/api/admin/login
+/api/admin/register
+
