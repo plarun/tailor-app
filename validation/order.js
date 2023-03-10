@@ -4,8 +4,10 @@ const isEmpty = require('./is-empty');
 module.exports = function validateOrderInput(data) {
 	let errors = {};
 
+	console.log(data);
+
 	data.order_status = !isEmpty(data.order_status) ? data.order_status : '';
-	data.delivery_date = !isEmpty(data.delivery_date) ? data.delivery_date : '';
+	data.delivery_days = !isEmpty(data.delivery_days) ? data.delivery_days : 0;
 	data.dressType = !isEmpty(data.dressType) ? data.dressType : '';
 	data.customer = !isEmpty(data.customer) ? data.customer : '';
 	data.user = !isEmpty(data.user) ? data.user : '';
@@ -18,8 +20,8 @@ module.exports = function validateOrderInput(data) {
 		errors.order_status = 'Order status field is required';
 	}
 
-	if (Validator.isEmpty(data.delivery_date)) {
-		errors.delivery_date = 'Delivery date feild is required';
+	if (Validator.isEmpty(data.delivery_days)) {
+		errors.delivery_days = 'Delivery days feild is required';
 	}
 
 	if(Validator.isEmpty(data.dressType)) {

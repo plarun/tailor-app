@@ -71,10 +71,14 @@ router.get('/myorders', passport.authenticate('jwt', { session: false }), (req, 
 router.post('/create', passport.authenticate('jwt', { session: false }), (req, res) => {
 	const { errors, isValid } = validateOrderInput(req.body);
 
+	console.log(req.body)
+
 	//Check Validation
 	if(!isValid){
 		return res.status(400).json(errors);
 	}
+
+	console.log(req.body)
 
 	const newOrder = new Order({	
 		customer: {

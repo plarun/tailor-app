@@ -28,6 +28,7 @@ import AddDresstypes from './components/add-new/AddDresstypes';
 import CustomerList from './components/customer/CustomerList';
 import CreateCustomer from './components/add-new/CreateCustomer';
 import MyOrders from './components/order/MyOrders';
+import AddOrder from './components/add-new/AddOrder'
 
 
 import './App.css';
@@ -91,6 +92,9 @@ class App extends Component {
 							</Switch>
 							<Switch>
 								<PrivateRoute exact path="/orders" component={MyOrders} />
+							</Switch>
+							<Switch>
+								<PrivateRoute exact path="/add-order" component={AddOrder} />
 							</Switch>
 						</div>
 						<Footer />

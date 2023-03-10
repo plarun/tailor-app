@@ -75,5 +75,21 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
 	.catch(err => res.status(404).json({ customers: 'There are no customers' }));
 });
 
+// @route   GET api/customers/all
+// @desc    Get all customers
+// @access  Public
+router.get('/phone', passport.authenticate('jwt', { session: false }), (req, res) => {
+	const phone = req.query.phone
+	Customer.find({phone: phone})
+	.then(customers => {
+		if (customers.length == 0) {
+			errors.nocustomer = 'Customer not found';
+			return res.status(404).json(errors);
+		}
+
+		res.json(customers);
+	})
+	.catch(err => res.status(404).json({ customers: 'Customer not found' }));
+});
 
 module.exports = router;

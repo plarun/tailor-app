@@ -24,7 +24,7 @@ class OrderItem extends Component {
 				</div>
 				<div className="col-md-3">
 					
-						<Link to="/create-order">
+						<Link to="/add-order">
 							<div className="btn btn-outline-info">
 								<FontAwesomeIcon icon= {faUser} />
 								<span>   New Order</span>

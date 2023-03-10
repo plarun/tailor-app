@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_ERRORS, GET_CUSTOMERS, CUSTOMERS_LOADING} from './types';
+import { GET_ERRORS, GET_CUSTOMERS, CUSTOMERS_LOADING, FETCH_CUSTOMER_BY_PHONE } from './types';
 
 // Get all tailor profiles
 export const getCustomers = () => dispatch => {
@@ -33,6 +33,25 @@ export const createCustomers = (customer, history) => dispatch => {
 		})
 	);
 };
+
+export const getCustomerByPhone = (phone) => dispatch => {
+	dispatch(setCustomersLoading());
+	axios.get('http://localhost:5000/api/customers/phone', { params: phone })
+	.then( res => {
+		dispatch({
+			type: FETCH_CUSTOMER_BY_PHONE,
+			payload: res.data
+		})
+	}
+	)
+	.catch(err => {
+		console.log(err)
+		dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		})}
+	);
+}
 
 
 // Customer loading

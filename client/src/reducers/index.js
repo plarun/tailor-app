@@ -12,5 +12,5 @@ export  default combineReducers({
 	errors: errorReducer,
 	dress: dresslistReducer,
 	cust: customerReducer,
-	orders: orderReducer
+	order: orderReducer
 }); 

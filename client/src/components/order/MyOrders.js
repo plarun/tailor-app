@@ -18,7 +18,7 @@ class MyOrders extends Component {
 	// }
 
 	render() {
-		const { orders, loading } = this.props.orders;
+		const { orders, loading } = this.props.order;
 		let myorders;
 
 		if (orders === null || loading) {
@@ -51,11 +51,11 @@ class MyOrders extends Component {
 
 MyOrders.propTypes = {
 	getMyOrders: PropTypes.func.isRequired,
-	orders: PropTypes.object.isRequired
+	order: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-	orders: state.orders
+	order: state.order
 });
 
 export default connect(mapStateToProps, { getMyOrders })(MyOrders);

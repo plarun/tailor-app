@@ -1,6 +1,19 @@
 import axios from 'axios';
 
-import { GET_ERRORS, GET_ORDERS,GET_MY_ORDERS, ORDERS_LOADING } from './types';
+import { GET_ERRORS, GET_ORDERS,GET_MY_ORDERS, ORDERS_LOADING, CLEAR_ORDER_CUSTOMER } from './types';
+
+// Add new order
+export const addOrder = (order, history) => dispatch => {
+	axios
+		.post('http://localhost:5000/api/orders/create', order)
+		.then(res => history.push('/orders'))
+		.catch(err =>
+		dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		})
+	);
+};
 
 // Get My orders
 export const getMyOrders = () => dispatch => {
@@ -51,3 +64,11 @@ export const setOrdersLoading = () => {
 	}
 }
 
+// Clear profile
+export const clearOrderCustomer = () => {
+	console.log("clear order customer")
+	return {
+		type: CLEAR_ORDER_CUSTOMER
+	};
+};
+  
