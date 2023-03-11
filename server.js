@@ -1,50 +1,51 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const cors = require('cors');
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const cors = require("cors");
 
-const users = require('./routes/api/users');
-const admin = require('./routes/api/admin');
-const tailors = require('./routes/api/tailors');
-const dresslists = require('./routes/api/dresslists');
-const customers = require('./routes/api/customers');
-const orders = require('./routes/api/orders');
+const users = require("./routes/api/users");
+const admin = require("./routes/api/admin");
+const tailors = require("./routes/api/tailors");
+const dresslists = require("./routes/api/dresslists");
+const customers = require("./routes/api/customers");
+const orders = require("./routes/api/orders");
 
 const app = express();
 
-app.use(cors({
-    origin: '*'
-}));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Body parser middleware
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // DB config
-const db = require('./config/keys').mongoURI;
+const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
-mongoose.set('strictQuery', true);
+mongoose.set("strictQuery", true);
 mongoose
-	.connect(db)
-	.then(() => console.log("MongoDB connected"))
-	.catch(err => console.log(err));
+  .connect(db)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 //Passport middleware
 app.use(passport.initialize());
 
 //Passport Config
-require('./config/passport')(passport);
+require("./config/passport")(passport);
 
 //use routes
-app.use('/api/users', users);
-app.use('/api/users', admin);
-app.use('/api/tailors', tailors);
-app.use('/api/dresslists', dresslists);
-app.use('/api/customers', customers);
-app.use('/api/orders', orders);
-
+app.use("/api/users", users);
+app.use("/api/users", admin);
+app.use("/api/tailors", tailors);
+app.use("/api/dresslists", dresslists);
+app.use("/api/customers", customers);
+app.use("/api/orders", orders);
 
 const port = process.env.PORT || 5000;
 

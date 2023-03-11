@@ -1,56 +1,58 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Spinner from '../common/Spinner';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Spinner from "../common/Spinner";
 
-import {getMyOrders} from '../../actions/orderActions'
-import OrderItem from './OrderItem';
+import { getMyOrders } from "../../actions/orderActions";
+import OrderItem from "./OrderItem";
 
 class MyOrders extends Component {
-    
-	componentDidMount() {
-		this.props.getMyOrders(this.props.auth.user.id);
-	}
+  constructor(props) {
+    super(props);
+    this.refreshOrder = this.refreshOrder.bind(this);
+  }
 
-	// onDeleteClick(e) {
-	// 	this.props.deleteTailor();
-	// }
+  componentDidMount() {
+    this.props.getMyOrders(this.props.auth.user.id);
+  }
 
-	render() {
-		const { orders, loading } = this.props.order;
-		let myorders;
+  refreshOrder() {
+    this.props.getMyOrders(this.props.auth.user.id);
+  }
 
-		if (orders === null || loading) {
-            myorders = <Spinner />;
-		} else {
-			myorders = (
-				<OrderItem orders={orders} />
-			);
-		}
+  render() {
+    const { orders, loading } = this.props.order;
+    let myorders;
 
-		return (
-		<div className="orders">
-			<div className="container">
-			<div className="row">
-				<div className="col-md-12">
-				{myorders}
-				</div>
-			</div>
-			</div>
-		</div>
-		);
-	}
+    if (orders === null || loading) {
+      myorders = <Spinner />;
+    } else {
+      myorders = (
+        <OrderItem orders={orders} refreshCallback={this.refreshOrder} />
+      );
+    }
+
+    return (
+      <div className="orders">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">{myorders}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 MyOrders.propTypes = {
-	getMyOrders: PropTypes.func.isRequired,
-	order: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired,
+  getMyOrders: PropTypes.func.isRequired,
+  order: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	order: state.order,
-	auth: state.auth
+const mapStateToProps = (state) => ({
+  order: state.order,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getMyOrders })(MyOrders);
