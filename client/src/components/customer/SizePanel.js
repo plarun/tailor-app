@@ -6,8 +6,8 @@ import { getCustomers } from '../../actions/customerActions';
 class SizePanel extends Component {
 	render() {
 		const customer = this.props.customer;
-		const upper = customer.upper[0]
-		const lower = customer.lower[0]
+		const upper = customer.upper
+		const lower = customer.lower
 
 		return (
 			<div className="row">

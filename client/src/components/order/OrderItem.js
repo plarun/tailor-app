@@ -37,7 +37,6 @@ class OrderItem extends Component {
 					<h4 className="mb-4">Orders</h4>
 				</div>
 				<div className="col-md-3">
-					
 						<Link to="/add-order">
 							<div className="btn btn-outline-info">
 								<FontAwesomeIcon icon= {faPlus} />

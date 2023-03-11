@@ -5,6 +5,10 @@ import  TextFieldGroup from '../common/TextFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addDressItem } from '../../actions/dresslistActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
+
 class AddDresstypes extends Component {
 	constructor(props) {
 		super(props);
@@ -58,7 +62,7 @@ class AddDresstypes extends Component {
 					<div className="row">
 						<div className="col-md-8 m-auto">
 							<Link to="/dress" className="btn btn-light">
-								Go Back
+								<FontAwesomeIcon icon={faArrowLeft}/>
 							</Link>
 							<h1 className="display-4 text-center">Add New Dress Type</h1>
 							<small className="d-block pb-3">* = required fields</small>

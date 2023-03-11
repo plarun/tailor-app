@@ -24,11 +24,12 @@ import Dashboard from './components/dashboard/Dashboard';
 import TailorProfiles from './components/profile/TailorProfiles';
 import Dresslist from './components/dresslist/Dresslist';
 import PrivateRoute from './components/common/PrivateRoute'
-import AddDresstypes from './components/add-new/AddDresstypes';
+import AddDress from './components/add-new/AddDress';
 import CustomerList from './components/customer/CustomerList';
-import CreateCustomer from './components/add-new/CreateCustomer';
+import AddCustomer from './components/add-new/AddCustomer';
 import MyOrders from './components/order/MyOrders';
 import AddOrder from './components/add-new/AddOrder'
+import EditCustomer from './components/edit/EditCustomer';
 
 
 import './App.css';
@@ -82,13 +83,16 @@ class App extends Component {
 								<PrivateRoute exact path="/dress" component={Dresslist} />
 							</Switch>
 							<Switch>
-								<PrivateRoute exact path="/add-dresstypes" component={AddDresstypes} />
+								<PrivateRoute exact path="/add-dresstypes" component={AddDress} />
 							</Switch>
 							<Switch>
 								<PrivateRoute exact path="/customers" component={CustomerList} />
 							</Switch>
 							<Switch>
-								<PrivateRoute exact path="/create-customers" component={CreateCustomer} />
+								<PrivateRoute exact path="/create-customers" component={AddCustomer} />
+							</Switch>
+							<Switch>
+								<PrivateRoute exact path="/edit-customer" component={EditCustomer} />
 							</Switch>
 							<Switch>
 								<PrivateRoute exact path="/orders" component={MyOrders} />

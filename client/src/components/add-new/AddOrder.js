@@ -11,6 +11,8 @@ import { addOrder } from '../../actions/orderActions';
 import { getDresslists } from '../../actions/dresslistActions';
 import { getCustomerByPhone } from '../../actions/customerActions';
 import { clearOrderCustomer} from '../../actions/orderActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 class AddOrder extends Component {
 	constructor(props) {
@@ -127,7 +129,7 @@ class AddOrder extends Component {
             view = (
                 <div className="col-md-8 m-auto">
                     <Link to="/orders" className="btn btn-light" onClick={this.props.clearOrderCustomer}>
-                        Go Back
+                        <FontAwesomeIcon icon={faArrowLeft}/>
                     </Link>
                     <h1 className="display-4 text-center">Create New Order</h1>
                     <small className="d-block pb-3 text-danger">* = required fields</small>

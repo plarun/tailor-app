@@ -58,6 +58,45 @@ router.post('/create', passport.authenticate('jwt', { session: false }), (req, r
 		})
 });
 
+//@route	POST api/customers/edit
+//@desc		update customer
+//@access	private
+router.post('/edit', passport.authenticate('jwt', { session: false }), (req, res) => {
+	const { errors, isValid } = validateCustomerInput(req.body);
+	const id = new mongoose.Types.ObjectId(req.body._id)
+
+	//Check Validation
+	if(!isValid){
+		return res.status(400).json(errors);
+	}
+
+	Customer.updateOne({_id: id}, {
+		$set: {
+			"name": req.body.name,
+			"phone": req.body.phone,
+			"gender": req.body.gender,
+			"upper.neck": req.body.neck,
+			"upper.shoulder": req.body.shoulder,
+			"upper.fullarm": req.body.fullarm,
+			"upper.halfarm": req.body.halfarm,
+			"upper.sleeve": req.body.sleeve,
+			"upper.wrist": req.body.wrist,
+			"upper.elbow": req.body.elbow,
+			"upper.chest": req.body.chest,
+			"upper.hip": req.body.hip,
+			"upper.body": req.body.body,
+			"lower.thigh": req.body.thigh,
+			"lower.knee": req.body.knee,
+			"lower.seat": req.body.seat,
+			"lower.leg_half": req.body.leg_half,
+			"lower.leg_full": req.body.leg_full,
+			"lower.ankle": req.body.ankle
+		}
+	}).then(customer => res.json(customer))
+	.catch(err => res.status(404).json({ customers: 'Unable to update customer' }))
+});
+
+
 // @route   GET api/customers/all
 // @desc    Get all customers
 // @access  Public
@@ -69,7 +108,6 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
 		errors.nocustomers = 'There are no customers';
 		return res.status(404).json(errors);
 		}
-
 		res.json(customers);
 	})
 	.catch(err => res.status(404).json({ customers: 'There are no customers' }));

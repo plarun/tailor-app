@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faEdit } from '@fortawesome/free-solid-svg-icons'
+
+import { loadCustomer } from '../../actions/customerActions';
 
 import SizePanel from './SizePanel'
 
@@ -16,11 +22,18 @@ class Customer extends Component {
 			errors: {}
 		};
 		this.onClick = this.onClick.bind(this);
+		this.loadcurrentcustomer = this.loadcurrentcustomer.bind(this);
 	}
 
 	onClick(e) {
 		let visibility = this.state.showSizePanel;
 		this.setState({showSizePanel: !visibility});
+	}
+
+	loadcurrentcustomer(e) {
+		console.log("loading curr customer")
+		this.props.loadCustomer(this.props.customer);
+		// this.props.history('/edit-customer')
 	}
 
 	render() {
@@ -39,7 +52,11 @@ class Customer extends Component {
 					<div className="col-4">{customer.name}</div>
 					<div className="col-4">{customer.phone}</div>
 					<div className="col-2">{customer.gender}</div>
-					<div className="col-1"><FontAwesomeIcon icon={faEdit} role="button"/></div>
+					<div className="col-1">
+						<Link to="/edit-customer">
+							<FontAwesomeIcon icon={faEdit} role="button" onClick={this.loadcurrentcustomer}/>
+						</Link>
+					</div>
 					<div className="col-1">{sizePanelIcon}</div>
 				</div>
 				{ this.state.showSizePanel ? <SizePanel customer={customer}/> : null}
@@ -48,9 +65,10 @@ class Customer extends Component {
 	}
 }
 
-// TailorProfileItem.propTypes = {
-//   deleteExperience: PropTypes.func.isRequired
-// };
+Customer.propTypes = {
+	loadCustomer: PropTypes.func.isRequired
+};
 
-// export default connect(null, { deleteExperience })(TailorProfileItem);
-export default Customer
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, { loadCustomer })(Customer);

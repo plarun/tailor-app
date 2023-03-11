@@ -5,6 +5,8 @@ import  TextFieldGroup from '../common/TextFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createCustomers } from '../../actions/customerActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 class CreateCustomers extends Component {
 	constructor(props) {
@@ -90,7 +92,7 @@ class CreateCustomers extends Component {
 					<div className="row">
 						<div className="col-md-8 m-auto">
 							<Link to="/customers" className="btn btn-light">
-								Go Back
+								<FontAwesomeIcon icon={faArrowLeft}/>
 							</Link>
 							<h1 className="display-4 text-center">Create New Customer</h1>
 							<small className="d-block pb-3 text-danger">* = required fields</small>

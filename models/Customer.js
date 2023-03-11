@@ -15,7 +15,7 @@ const CustomerSchema = new Schema({
 		type: String,
 		required: true
 	},
-	upper: [{
+	upper: {
 		neck: {
 			type: String
 		},
@@ -46,8 +46,8 @@ const CustomerSchema = new Schema({
 		body: {
 			type: String
 		},
-	}],
-	lower: [{
+	},
+	lower: {
 		thigh: {
 			type: String
 		},
@@ -66,7 +66,7 @@ const CustomerSchema = new Schema({
 		ankle: {
 			type: String
 		},
-	}]
+	}
 });
 
 module.exports = Customer = mongoose.model('customers', CustomerSchema);

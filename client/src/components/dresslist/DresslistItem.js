@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash , faShirt} from '@fortawesome/free-solid-svg-icons';
-// import { faShirt } from '@fortawesome/free-solid-svg-icons';
+import { faTrash , faPlus } from '@fortawesome/free-solid-svg-icons';
 
 // import { deleteExperience } from '../../actions/profileActions';
 
@@ -46,7 +45,7 @@ class DresslistItem extends Component {
 					
 						<Link to="/add-dresstypes">
 							<div className="btn btn-outline-info">
-								<FontAwesomeIcon icon= {faShirt} />
+								<FontAwesomeIcon icon= {faPlus} />
 								<span>   New Dress</span>
 							</div>
 						</Link>

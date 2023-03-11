@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_ERRORS, GET_CUSTOMERS, CUSTOMERS_LOADING, FETCH_CUSTOMER_BY_PHONE } from './types';
+import { GET_ERRORS, GET_CUSTOMERS, CUSTOMERS_LOADING, FETCH_CUSTOMER_BY_PHONE, LOAD_CUSTOMER, CUSTOMER_LOADING } from './types';
 
 // Get all tailor profiles
 export const getCustomers = () => dispatch => {
@@ -34,6 +34,24 @@ export const createCustomers = (customer, history) => dispatch => {
 	);
 };
 
+export const updateCustomer = (customer, history) => dispatch => {
+	console.log("updateCustomer: ", customer)
+	axios
+	.post('http://localhost:5000/api/customers/edit', customer)
+	.then(res => {
+		console.log(res)
+		history.push('/customers')
+	})
+	.catch(err => {
+		console.log(err)
+		return dispatch({
+			type: GET_ERRORS,
+			payload: err.response
+		})
+	}
+	);
+};
+
 export const getCustomerByPhone = (phone) => dispatch => {
 	dispatch(setCustomersLoading());
 	axios.get('http://localhost:5000/api/customers/phone', { params: phone })
@@ -53,10 +71,25 @@ export const getCustomerByPhone = (phone) => dispatch => {
 	);
 }
 
+// Load current customer
+export const loadCustomer = (customer) => dispatch => {
+	dispatch(setCustomerLoading())
+	return dispatch({
+		type: LOAD_CUSTOMER,
+		payload: customer
+	})
+}
 
-// Customer loading
+// Customers loading
 export const setCustomersLoading = () => {
 	return {
-	  type: CUSTOMERS_LOADING
+		type: CUSTOMERS_LOADING
 	};
-  };
+};
+
+// Customers loading
+export const setCustomerLoading = () => {
+	return {
+		type: CUSTOMER_LOADING
+	};
+};
