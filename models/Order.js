@@ -3,33 +3,27 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const OrderSchema = new Schema({
-	tailor: {
-		user: {
-			type: Schema.Types.ObjectId,
-			ref: 'users'
-		}
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: 'users'
 	},
 	customer: {
-		customer: {
-			type: Schema.Types.ObjectId,
-			ref: 'customers'
-		}
+		type: Schema.Types.ObjectId,
+		ref: 'customers'
 	},
 	dressType: {
-		dress: {
-			type: Schema.Types.ObjectId,
-			ref: 'dressLists'
-		}
+		type: Schema.Types.ObjectId,
+		ref: 'dressLists'
 	},
-	order_date: {
+	orderDate: {
 		type: Date,
 		default: Date.now
 	},
-	delivery_days: {
+	deliveryDays: {
 		type: Number,
 		required: true
 	},
-	order_status: {
+	orderStatus: {
 		type: String,
 		required: true
 	},

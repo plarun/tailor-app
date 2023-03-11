@@ -6,22 +6,22 @@ module.exports = function validateOrderInput(data) {
 
 	console.log(data);
 
-	data.order_status = !isEmpty(data.order_status) ? data.order_status : '';
-	data.delivery_days = !isEmpty(data.delivery_days) ? data.delivery_days : 0;
+	data.orderStatus = !isEmpty(data.orderStatus) ? data.orderStatus : '';
+	data.deliveryDays = !isEmpty(data.deliveryDays) ? data.deliveryDays : 0;
 	data.dressType = !isEmpty(data.dressType) ? data.dressType : '';
 	data.customer = !isEmpty(data.customer) ? data.customer : '';
 	data.user = !isEmpty(data.user) ? data.user : '';
 
-	if (!Validator.isLength(data.order_status, { min: 2, max: 200 })) {
+	if (!Validator.isLength(data.orderStatus, { min: 2, max: 200 })) {
 		errors.note = 'Note must be between 2 and 200 characters';
 	}
 
-	if (Validator.isEmpty(data.order_status)) {
-		errors.order_status = 'Order status field is required';
+	if (Validator.isEmpty(data.orderStatus)) {
+		errors.orderStatus = 'Order status field is required';
 	}
 
-	if (Validator.isEmpty(data.delivery_days)) {
-		errors.delivery_days = 'Delivery days feild is required';
+	if (Validator.isEmpty(data.deliveryDays)) {
+		errors.deliveryDays = 'Delivery days feild is required';
 	}
 
 	if(Validator.isEmpty(data.dressType)) {
@@ -35,7 +35,6 @@ module.exports = function validateOrderInput(data) {
 	if(Validator.isEmpty(data.user)) {
 		errors.user = 'Tailor feilds are required'
 	}
-
 
 	return {
 		errors,

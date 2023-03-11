@@ -33,15 +33,36 @@ class Order extends Component {
 			notePanelIcon = (<FontAwesomeIcon icon={faCaretUp} role="button" onClick={this.onClick}/>)
 		}
 
+		console.log(this.props.order)
+
+		const formatDate = (date, days) => {
+			var d = new Date(date);
+			d.setDate(d.getDate() + days);
+
+			var	month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear();
+		
+			if (month.length < 2) 
+				month = '0' + month;
+			if (day.length < 2) 
+				day = '0' + day;
+		
+			return [year, month, day].join('-');
+		}
+
+		const orderDate = formatDate(order.orderDate, 0)
+		const deliveryDate = formatDate(order.orderDate, order.deliveryDays)
+
 		return (
 			<li className="list-group-item border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2" key={order._id}>
 				<div className={"row " + panelColor}>
-					<div className="col-2">{order.customer.name}</div>
-					<div className="col-2">{order.customer.phone}</div>
-					<div className="col-2">{order.dressType.name}</div>
-					<div className="col-2">{order.order_date}</div>
-					<div className="col-2">{order.delivery_date}</div>
-					<div className="col-2">{order.order_status}</div>
+					<div className="col-4">{order.customer}</div>
+					<div className="col-3">{order.dressType}</div>
+					<div className="col-1">{orderDate}</div>
+					<div className="col-1">{deliveryDate}</div>
+					<div className="col-1">{order.orderStatus}</div>
+					<div className="col-1"><FontAwesomeIcon icon={faEdit} role="button"/></div>
 					<div className="col-1">{notePanelIcon}</div>
 				</div>
 				{ this.state.showNotePanel ? <NotePanel note={order.note}/> : null}

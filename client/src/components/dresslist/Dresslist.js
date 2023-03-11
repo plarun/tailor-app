@@ -17,16 +17,9 @@ class Dresslist extends Component {
 		if (dresslist === null || loading) {
 				dressItems = <Spinner />;
 		} else {
-			if (dresslist.length > 0) {
-				dressItems = (
-					<DresslistItem dresslist={dresslist} />
-				);
-			} else {
-				// dressItems = <h4>No dresslist found...</h4>;
-				dressItems = (
-					<DresslistItem dresslist={dresslist} />
-				);
-			}
+			dressItems = (
+				<DresslistItem dresslist={dresslist} />
+			);
 		}
 
 		return (

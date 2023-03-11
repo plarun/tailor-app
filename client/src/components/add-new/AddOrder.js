@@ -19,7 +19,7 @@ class AddOrder extends Component {
             dressTypes: [],
 			customerPhone: '',
 			dressType: '',
-            deliveryDays: null,
+            deliveryDays: 0,
             orderStatus: 'New Order',
             note: '',
 			errors: {},
@@ -69,8 +69,8 @@ class AddOrder extends Component {
             customer: this.props.order.customer[0]._id,
             user: this.props.auth.user.id,
             dressType: this.state.dressType,
-            delivery_days: this.state.deliveryDays,
-            order_status: this.state.orderStatus,
+            deliveryDays: this.state.deliveryDays,
+            orderStatus: this.state.orderStatus,
             note: this.state.note
 		};
 
@@ -130,7 +130,7 @@ class AddOrder extends Component {
                         Go Back
                     </Link>
                     <h1 className="display-4 text-center">Create New Order</h1>
-                    <small className="d-block pb-3">* = required fields</small>
+                    <small className="d-block pb-3 text-danger">* = required fields</small>
 
                     {customerPanel}
 

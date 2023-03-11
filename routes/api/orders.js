@@ -54,8 +54,56 @@ router.get('/all', passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 router.get('/myorders', passport.authenticate('jwt', { session: false }), (req, res) => {
-	Order.find({ user: req.params.user_id })
-		.then(orders => {
+	const id = new mongoose.Types.ObjectId(req.query.user)
+	Order.aggregate([
+		{
+			$match: { user: id }
+		},
+		{
+			$lookup: {
+				from: "users",
+				localField: "user",
+				foreignField: "_id",
+				as: "user"
+			}
+		},
+		{
+			$unwind: "$user"
+		},
+		{
+			$lookup: {
+				from: "customers",
+				localField: "customer",
+				foreignField: "_id",
+				as: "customer"
+			}
+		},
+		{
+			$unwind: "$customer"
+		},
+		{
+			$lookup: {
+				from: "dresslists",
+				localField: "dressType",
+				foreignField: "_id",
+				as: "dressType"
+			}
+		},
+		{
+			$unwind: "$dressType"
+		},
+		{ 
+			$project: {
+				_id: 1, 
+				deliveryDays: 1, 
+				orderStatus: 1, 
+				note: 1, 
+				orderDate: 1, 
+				customer: "$customer.name", 
+				dressType: "$dressType.name"
+			}
+		}
+	]).then(orders => {
 			if (!orders) {
 				errors.noorders = "No orders"
 				return res.status(404).json(errors)
@@ -71,25 +119,17 @@ router.get('/myorders', passport.authenticate('jwt', { session: false }), (req, 
 router.post('/create', passport.authenticate('jwt', { session: false }), (req, res) => {
 	const { errors, isValid } = validateOrderInput(req.body);
 
-	console.log(req.body)
-
 	//Check Validation
 	if(!isValid){
 		return res.status(400).json(errors);
 	}
 
-	console.log(req.body)
-
 	const newOrder = new Order({	
-		customer: {
-			name: req.body.name,
-			phone: req.body.phone,
-		},
-		dressType: {
-			name: req.body.name
-		},
-		delivery_date: req.body.delivery_date,
-		order_status: req.body.order_status,
+		customer: req.body.customer,
+		user: req.body.user,
+		dressType: req.body.dressType,
+		deliveryDays: req.body.deliveryDays,
+		orderStatus: req.body.orderStatus,
 		note: req.body.note
 
 	});

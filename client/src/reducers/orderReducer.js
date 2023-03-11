@@ -19,12 +19,14 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				loading: false,
+				errors: action.errors,
 				orders: action.payload
 			}
 		case GET_MY_ORDERS:
 			return {
 				...state,
 				loading: false,
+				errors: action.errors,
 				orders: action.payload
 			}
 		case ORDERS_LOADING:
@@ -35,6 +37,7 @@ export default function(state = initialState, action) {
 		case CLEAR_ORDER_CUSTOMER:
 			return {
 				...state,
+				errors: null,
 				customer: null
 			}
 		default:

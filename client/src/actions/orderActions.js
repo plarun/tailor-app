@@ -16,9 +16,9 @@ export const addOrder = (order, history) => dispatch => {
 };
 
 // Get My orders
-export const getMyOrders = () => dispatch => {
+export const getMyOrders = (user) => dispatch => {
 	dispatch(setOrdersLoading());
-	axios.get('http://localhost:5000/api/orders/myorders')
+	axios.get('http://localhost:5000/api/orders/myorders', {params: {user}})
 	.then( res => {
 		console.log(res)
 		dispatch({

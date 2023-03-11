@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
@@ -10,7 +9,7 @@ import OrderItem from './OrderItem';
 class MyOrders extends Component {
     
 	componentDidMount() {
-		this.props.getMyOrders();
+		this.props.getMyOrders(this.props.auth.user.id);
 	}
 
 	// onDeleteClick(e) {
@@ -24,15 +23,9 @@ class MyOrders extends Component {
 		if (orders === null || loading) {
             myorders = <Spinner />;
 		} else {
-			if (orders.length > 0) {
-				myorders = (
-					<OrderItem orders={orders} />
-				);
-			} else {
-				myorders = (
-					<OrderItem orders={orders} />
-				);
-			}
+			myorders = (
+				<OrderItem orders={orders} />
+			);
 		}
 
 		return (
@@ -51,11 +44,13 @@ class MyOrders extends Component {
 
 MyOrders.propTypes = {
 	getMyOrders: PropTypes.func.isRequired,
-	order: PropTypes.object.isRequired
+	order: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-	order: state.order
+	order: state.order,
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, { getMyOrders })(MyOrders);
