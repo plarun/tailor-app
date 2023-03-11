@@ -33,7 +33,9 @@ class TailorProfiles extends Component {
       <div className="profiles">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">{profileItems}</div>
+            <div className="col-md-12">
+              <ul className="list-group mb-0">{profileItems}</ul>
+            </div>
           </div>
         </div>
       </div>

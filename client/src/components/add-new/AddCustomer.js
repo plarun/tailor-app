@@ -93,7 +93,7 @@ class CreateCustomers extends Component {
               <Link to="/customers" className="btn btn-light">
                 <FontAwesomeIcon icon={faArrowLeft} />
               </Link>
-              <h1 className="display-4 text-center">Create New Customer</h1>
+              <h4 className="text-center">Create New Customer</h4>
               <small className="d-block pb-3 text-danger">
                 * = required fields
               </small>

@@ -15,9 +15,9 @@ class CustomerListItem extends Component {
     const header = (
       <li className="list-group-item border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
         <div className={"row"}>
-          <div className="col-4 font-weight-bold">Customer</div>
-          <div className="col-4 font-weight-bold">Phone</div>
-          <div className="col-2 font-weight-bold">Gender</div>
+          <div className="col-4 font-weight-bold my-auto">Customer</div>
+          <div className="col-4 font-weight-bold my-auto">Phone</div>
+          <div className="col-2 font-weight-bold my-auto">Gender</div>
           <div className="col-1"></div>
           <div className="col-1"></div>
         </div>

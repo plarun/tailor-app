@@ -5,45 +5,64 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 class TailorProfileItem extends Component {
-  // onDeleteClick(e) {
-  // 	this.props.deleteTailor();
-  // }
+  constructor(props) {
+    super(props);
+
+    this.formatDate = this.formatDate.bind(this);
+  }
+
+  formatDate(date) {
+    var d = new Date(date);
+    d.setDate(d.getDate());
+
+    var month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
 
   render() {
     const profiles = this.props.tailors.map((profile) => (
-      <tr key={profile._id}>
-        <td>{profile.name}</td>
-        <td>{profile.email}</td>
-        <td>{profile.date}</td>
-        <td>
-          <FontAwesomeIcon
-            icon={faTrash}
-            // onClick={this.onDeleteClick.bind(this)}
-          />
-          {/* <button
-					// onClick={this.onDeleteClick.bind(this, profile)}
-					className="btn btn-danger"
-				>
-					Delete
-				</button> */}
-        </td>
-      </tr>
+      <li
+        className="list-group-item border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
+        key={profile._id}
+      >
+        <div className="row">
+          <div className="col-4">{profile.name}</div>
+          <div className="col-4">{profile.email}</div>
+          <div className="col-3">{this.formatDate(profile.date)}</div>
+          <div className="col-1">
+            <FontAwesomeIcon
+              icon={faTrash}
+              role="button"
+              onClick={this.deleteDress}
+            />
+          </div>
+        </div>
+      </li>
     ));
 
     return (
       <div>
-        <h4 className="mb-4">Tailors Profile</h4>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email Id</th>
-              <th>Working From</th>
-              <th />
-            </tr>
-            {profiles}
-          </thead>
-        </table>
+        <div className="row">
+          <div className="col-md-12">
+            <h4 className="mb-4">Tailors Profile</h4>
+          </div>
+        </div>
+
+        <li className="list-group-item border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
+          <div className={"row"}>
+            <div className="col-4 font-weight-bold">Tailor</div>
+            <div className="col-4 font-weight-bold">Email Id</div>
+            <div className="col-3 font-weight-bold">Working From</div>
+            <div className="col-1"></div>
+          </div>
+        </li>
+        {profiles}
       </div>
     );
   }

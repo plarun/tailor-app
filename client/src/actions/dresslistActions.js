@@ -35,6 +35,19 @@ export const addDressItem = (dressItem, history) => (dispatch) => {
     );
 };
 
+// Delete dress
+export const deleteDress = (id) => (dispatch) => {
+  axios
+    .delete(`http://localhost:5000/api/dresslists/${id}`)
+    .then((res) => console.log(res))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: null,
+      })
+    );
+};
+
 // Dresslists Loading
 export const setDresslistLoading = () => {
   return {

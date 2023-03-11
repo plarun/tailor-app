@@ -42,6 +42,10 @@ class AddOrder extends Component {
     if (nextProps.dress.dresslist) {
       const { dresslist } = nextProps.dress;
       var items = [];
+      items.push({
+        label: "* Choose Dress",
+        value: 0,
+      });
       for (let i = 0; i < dresslist.length; i++) {
         let item = {
           label: dresslist[i].name,
@@ -139,7 +143,7 @@ class AddOrder extends Component {
           >
             <FontAwesomeIcon icon={faArrowLeft} />
           </Link>
-          <h1 className="display-4 text-center">Create New Order</h1>
+          <h4 className="text-center">Create New Order</h4>
           <small className="d-block pb-3 text-danger">
             * = required fields
           </small>
@@ -178,8 +182,6 @@ class AddOrder extends Component {
           </form>
         </div>
       );
-
-      console.log("done");
     }
 
     return (

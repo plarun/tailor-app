@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const passport = require("passport");
 
 // Load Input Validation
@@ -59,6 +60,23 @@ router.get(
       })
       .catch((err) =>
         res.status(404).json({ dresslist: "There is no items in dress list" })
+      );
+  }
+);
+
+//@route	POST api/dresslists/delete
+//@desc		delete dress
+//@access	private
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const id = new mongoose.Types.ObjectId(req.params.id);
+
+    Dresslist.deleteOne({ _id: id })
+      .then((dress) => res.json({ success: true }))
+      .catch((err) =>
+        res.status(404).json({ dressnotfound: "Dress not found" })
       );
   }
 );

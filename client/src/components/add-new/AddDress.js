@@ -62,8 +62,10 @@ class AddDresstypes extends Component {
               <Link to="/dress" className="btn btn-light">
                 <FontAwesomeIcon icon={faArrowLeft} />
               </Link>
-              <h1 className="display-4 text-center">Add New Dress Type</h1>
-              <small className="d-block pb-3">* = required fields</small>
+              <h4 className="text-center">Add New Dress</h4>
+              <small className="d-block pb-3 text-danger">
+                * = required fields
+              </small>
               <form noValidate onSubmit={this.onSubmit}>
                 <SelectListGroup
                   placeholder="* Gender"
