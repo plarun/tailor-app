@@ -7,9 +7,19 @@ import { Link } from "react-router-dom";
 import Customer from "./Customer";
 
 class CustomerListItem extends Component {
-  // onDeleteClick(id) {
-  // 	this.props.deleteExperience(id);
-  // }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      query: "",
+    };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   render() {
     const header = (
@@ -24,15 +34,29 @@ class CustomerListItem extends Component {
       </li>
     );
 
-    const customers = this.props.customers.map((customer) => (
-      <Customer customer={customer} key={customer._id} />
-    ));
+    const customers = this.props.customers
+      .filter(
+        (customer) =>
+          this.state.query == "" ||
+          customer.name.toLowerCase().startsWith(this.state.query.toLowerCase())
+      )
+      .map((customer) => <Customer customer={customer} key={customer._id} />);
 
     return (
       <div>
         <div className="row">
-          <div className="col-md-10">
+          <div className="col-md-4">
             <h4 className="mb-4">Customers</h4>
+          </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search Customer"
+              value={this.state.query}
+              onChange={this.onChange}
+              name="query"
+            />
           </div>
           <div className="col-md-2">
             <Link to="/create-customers">
@@ -53,9 +77,4 @@ class CustomerListItem extends Component {
   }
 }
 
-// TailorProfileItem.propTypes = {
-//   deleteExperience: PropTypes.func.isRequired
-// };
-
-// export default connect(null, { deleteExperience })(TailorProfileItem);
 export default CustomerListItem;
