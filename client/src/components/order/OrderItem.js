@@ -14,12 +14,19 @@ class OrderItem extends Component {
     super(props);
 
     this.state = {
+      query: "",
       orderList: [],
       filter: {
         orderStatus: "All",
       },
       sort: {},
     };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   componentDidMount() {
@@ -163,8 +170,12 @@ class OrderItem extends Component {
     const orders = this.state.orderList
       .filter(
         (order) =>
-          this.state.filter.orderStatus == "All" ||
-          this.state.filter.orderStatus == order.orderStatus
+          (this.state.filter.orderStatus == "All" ||
+            this.state.filter.orderStatus == order.orderStatus) &&
+          (this.state.query == "" ||
+            order.customer
+              .toLowerCase()
+              .startsWith(this.state.query.toLowerCase()))
       )
       .map((order) => (
         <Order
@@ -177,8 +188,18 @@ class OrderItem extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-md-10">
+          <div className="col-md-4">
             <h4 className="mb-4">Orders</h4>
+          </div>
+          <div className="col-md-6">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search Customer"
+              value={this.state.query}
+              onChange={this.onChange}
+              name="query"
+            />
           </div>
           <div className="col-md-2">
             <Link to="/add-order">
