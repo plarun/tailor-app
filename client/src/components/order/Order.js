@@ -100,9 +100,10 @@ class Order extends Component {
         <div className={"row " + panelColor}>
           <div className="col-2">{order.customer}</div>
           <div className="col-2">{order.dressType}</div>
+          <div className="col-1">{order.cost}</div>
           <div className="col-2">{orderDate}</div>
           <div className="col-2">{deliveryDate}</div>
-          <div className="col-2">
+          <div className="col-1">
             <span className={statusBadge}>{order.orderStatus}</span>
           </div>
           <div className="col-2 row">

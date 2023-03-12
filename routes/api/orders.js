@@ -107,6 +107,7 @@ router.get(
           orderDate: 1,
           customer: "$customer.name",
           dressType: "$dressType.name",
+          cost: "$dressType.cost",
         },
       },
     ])
