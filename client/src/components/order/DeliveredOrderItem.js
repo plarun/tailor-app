@@ -7,18 +7,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-import Order from "./Order";
+import DeliveredOrder from "./DeliveredOrder";
 
-class OrderItem extends Component {
+class DeliveredOrderItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       query: "",
       orderList: [],
-      filter: {
-        orderStatus: "All",
-      },
+      filterColumn: "Filter",
       sort: {},
     };
 
@@ -34,7 +32,7 @@ class OrderItem extends Component {
   }
 
   onSetFilter(filter) {
-    this.setState({ filter: { orderStatus: filter } });
+    this.setState({ filterColumn: filter });
   }
 
   applySort(name) {
@@ -71,44 +69,37 @@ class OrderItem extends Component {
 
   render() {
     const filter = (
-      <div className="dropright show">
+      <div className="dropdown show">
         <a
-          className="btn dropdown-toggle"
+          className="btn btn-primary dropdown-toggle"
           href="#"
           role="button"
           id="filterStatus"
           data-toggle="dropdown"
         >
-          <span className="font-weight-bold">Status </span>
+          <span className="font-weight-bold">{this.state.filterColumn} </span>
         </a>
         <div className="dropdown-menu">
           <a
             className="dropdown-item"
             href="#"
-            onClick={this.onSetFilter.bind(this, "All")}
+            onClick={this.onSetFilter.bind(this, "customer")}
           >
-            All
+            Customer
           </a>
           <a
             className="dropdown-item"
             href="#"
-            onClick={this.onSetFilter.bind(this, "New Order")}
+            onClick={this.onSetFilter.bind(this, "tailor")}
           >
-            New Order
+            Tailor
           </a>
           <a
             className="dropdown-item"
             href="#"
-            onClick={this.onSetFilter.bind(this, "Inprogress")}
+            onClick={this.onSetFilter.bind(this, "dress")}
           >
-            Inprogress
-          </a>
-          <a
-            className="dropdown-item"
-            href="#"
-            onClick={this.onSetFilter.bind(this, "Completed")}
-          >
-            Completed
+            Dress
           </a>
         </div>
       </div>
@@ -133,6 +124,20 @@ class OrderItem extends Component {
           </div>
           <div
             className="col-2 font-weight-bold my-auto"
+            onClick={this.applySort.bind(this, "tailor")}
+            role="button"
+          >
+            Tailor
+            {this.state.sort.hasOwnProperty("tailor") ? (
+              this.state.sort.tailor ? (
+                <FontAwesomeIcon icon={faSortAsc} className="ml-2" />
+              ) : (
+                <FontAwesomeIcon icon={faSortDesc} className="ml-2" />
+              )
+            ) : null}
+          </div>
+          <div
+            className="col-2 font-weight-bold my-auto"
             onClick={this.applySort.bind(this, "dressType")}
             role="button"
           >
@@ -145,7 +150,7 @@ class OrderItem extends Component {
               )
             ) : null}
           </div>
-          <div className="col-1 font-weight-bold my-auto">Cost</div>
+          <div className="col-2 font-weight-bold my-auto">Cost</div>
           <div
             className="col-2 font-weight-bold my-auto"
             onClick={this.applyDateSort.bind(this, "orderDate")}
@@ -160,26 +165,40 @@ class OrderItem extends Component {
               )
             ) : null}
           </div>
-          <div className="col-2 font-weight-bold my-auto">Due On</div>
-          <div className="col-2 font-weight-bold">{filter}</div>
-          <div className="col-1"></div>
+          <div className="col-2 font-weight-bold my-auto">Delivered On</div>
         </div>
       </li>
     );
 
     const orders = this.state.orderList
-      .filter(
-        (order) =>
-          (this.state.filter.orderStatus == "All" ||
-            this.state.filter.orderStatus == order.orderStatus) &&
-          order.orderStatus != "Delivered" &&
-          (this.state.query == "" ||
+      .filter((order) => {
+        if (this.state.filterColumn == "Filter") {
+          return true;
+        }
+        if (this.state.filterColumn == "customer") {
+          return (
+            this.state.query == "" ||
             order.customer
               .toLowerCase()
-              .startsWith(this.state.query.toLowerCase()))
-      )
+              .startsWith(this.state.query.toLowerCase())
+          );
+        } else if (this.state.filterColumn == "tailor") {
+          return (
+            this.state.query == "" ||
+            order.user.toLowerCase().startsWith(this.state.query.toLowerCase())
+          );
+        } else if (this.state.filterColumn == "dress") {
+          return (
+            this.state.query == "" ||
+            order.dressType
+              .toLowerCase()
+              .startsWith(this.state.query.toLowerCase())
+          );
+        }
+        return false;
+      })
       .map((order) => (
-        <Order
+        <DeliveredOrder
           order={order}
           key={order._id}
           refreshCallback={this.props.refreshCallback}
@@ -190,25 +209,20 @@ class OrderItem extends Component {
       <div>
         <div className="row">
           <div className="col-md-4">
-            <h4 className="mb-4">Orders</h4>
+            <h4 className="mb-4">Delivered Orders</h4>
           </div>
           <div className="col-md-6">
             <input
               type="text"
               className="form-control"
-              placeholder="Search Customer"
+              placeholder={"Search " + this.state.filterColumn}
               value={this.state.query}
               onChange={this.onChange}
               name="query"
             />
           </div>
           <div className="col-md-2">
-            <Link to="/add-order">
-              <div className="btn btn-outline-primary">
-                <FontAwesomeIcon icon={faPlus} />
-                <span> Order</span>
-              </div>
-            </Link>
+            <div className="col-2 font-weight-bold">{filter}</div>
           </div>
         </div>
 
@@ -221,4 +235,4 @@ class OrderItem extends Component {
   }
 }
 
-export default OrderItem;
+export default DeliveredOrderItem;

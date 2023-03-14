@@ -19,10 +19,12 @@ class EditOrder extends Component {
       note: "",
       errors: {},
       disabled: false,
+      isDelivered: false,
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChecked = this.onChecked.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,10 @@ class EditOrder extends Component {
     }
   }
 
+  onChecked(e) {
+    this.setState({ isDelivered: e.target.checked });
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -44,14 +50,20 @@ class EditOrder extends Component {
 
     const { order } = this.props.order;
 
+    let orderStatus = this.state.orderStatus;
+    let deliveredOn = null;
+    if (this.state.isDelivered) {
+      orderStatus = "Delivered";
+      deliveredOn = new Date();
+    }
+
     const orderItem = {
       _id: order._id,
       note: this.state.note,
-      orderStatus: this.state.orderStatus,
+      orderStatus: orderStatus,
       deilveryDays: this.state.deliveryDays,
+      deliveredOn: deliveredOn,
     };
-
-    console.log(orderItem);
 
     this.props.updateOrder(orderItem, this.props.history);
   }
@@ -101,6 +113,18 @@ class EditOrder extends Component {
               onChange={this.onChange}
               error={errors.deliveryDays}
             />
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value=""
+                id="delivery"
+                onChange={this.onChecked}
+              />
+              <label className="form-check-label" htmlFor="delivery">
+                Mark As Delivered
+              </label>
+            </div>
             <input
               type="submit"
               value="Save"

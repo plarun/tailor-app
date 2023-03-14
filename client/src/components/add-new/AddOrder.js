@@ -102,8 +102,6 @@ class AddOrder extends Component {
     if (dresslist === null || loading) {
       view = <Spinner />;
     } else {
-      console.log("props", this.props);
-      console.log("state", this.state);
       let customerPanel = (
         <form noValidate onSubmit={this.onFetchCust}>
           <div className="row">

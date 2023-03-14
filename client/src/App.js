@@ -28,6 +28,7 @@ import AddDress from "./components/add-new/AddDress";
 import CustomerList from "./components/customer/CustomerList";
 import AddCustomer from "./components/add-new/AddCustomer";
 import MyOrders from "./components/order/MyOrders";
+import DeliveredOrders from "./components/order/DeliveredOrders";
 import AddOrder from "./components/add-new/AddOrder";
 import EditCustomer from "./components/edit/EditCustomer";
 import EditOrder from "./components/edit/EditOrder";
@@ -116,6 +117,13 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/orders" component={MyOrders} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/delivered"
+                  component={DeliveredOrders}
+                />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/add-order" component={AddOrder} />

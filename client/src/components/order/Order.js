@@ -8,6 +8,7 @@ import {
   faCaretUp,
   faEdit,
   faTrash,
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { loadOrder, deleteOrder } from "../../actions/orderActions";
@@ -92,6 +93,27 @@ class Order extends Component {
       statusBadge = "badge badge-pill badge-success";
     }
 
+    const now = new Date();
+    let dueDateStatusIcon = null;
+    const diff = new Date(deliveryDate).getDate() - now.getDate();
+    if (diff <= 2 && diff >= 0) {
+      dueDateStatusIcon = (
+        <FontAwesomeIcon
+          icon={faExclamationTriangle}
+          onClick={this.deleteOrder}
+          color="orange"
+        />
+      );
+    } else if (diff < 0) {
+      dueDateStatusIcon = (
+        <FontAwesomeIcon
+          icon={faExclamationTriangle}
+          onClick={this.deleteOrder}
+          color="red"
+        />
+      );
+    }
+
     return (
       <li
         className="list-group-item border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2"
@@ -107,21 +129,22 @@ class Order extends Component {
             <span className={statusBadge}>{order.orderStatus}</span>
           </div>
           <div className="col-2 row">
-            <div className="col-4">{notePanelIcon}</div>
-            <Link to="/edit-order" className="col-4">
+            <div className="col-3">{notePanelIcon}</div>
+            <Link to="/edit-order" className="col-3">
               <FontAwesomeIcon
                 icon={faEdit}
                 role="button"
                 onClick={this.loadOrder}
               />
             </Link>
-            <div className="col-4">
+            <div className="col-3">
               <FontAwesomeIcon
                 icon={faTrash}
                 role="button"
                 onClick={this.deleteOrder}
               />
             </div>
+            <div className="col-3">{dueDateStatusIcon}</div>
           </div>
         </div>
         {this.state.showNotePanel ? <NotePanel note={order.note} /> : null}

@@ -30,6 +30,10 @@ const OrderSchema = new Schema({
   note: {
     type: String,
   },
+  deliveredOn: {
+    type: Date,
+    default: null,
+  },
 });
 
 module.exports = Order = mongoose.model("orders", OrderSchema);

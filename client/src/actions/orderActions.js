@@ -57,6 +57,27 @@ export const getMyOrders = (user) => (dispatch) => {
     });
 };
 
+// Get My orders
+export const getDeliveredOrders = (user) => (dispatch) => {
+  dispatch(setOrdersLoading());
+  axios
+    .get("http://localhost:5000/api/orders/delivered", { params: { user } })
+    .then((res) => {
+      console.log(res);
+      dispatch({
+        type: GET_MY_ORDERS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: GET_MY_ORDERS,
+        payload: null,
+      });
+    });
+};
+
 export const updateOrder = (order, history) => (dispatch) => {
   console.log("updateOrder: ", order);
   axios

@@ -63,7 +63,12 @@ router.get(
     const id = new mongoose.Types.ObjectId(req.query.user);
     Order.aggregate([
       {
-        $match: { user: id },
+        $match: {
+          user: id,
+          orderStatus: {
+            $in: ["New Order", "Inprogress", "Completed"],
+          },
+        },
       },
       {
         $lookup: {
@@ -122,6 +127,78 @@ router.get(
   }
 );
 
+router.get(
+  "/delivered",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const id = new mongoose.Types.ObjectId(req.query.user);
+    Order.aggregate([
+      {
+        $match: {
+          orderStatus: {
+            $eq: "Delivered",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer",
+        },
+      },
+      {
+        $unwind: "$customer",
+      },
+      {
+        $lookup: {
+          from: "dresslists",
+          localField: "dressType",
+          foreignField: "_id",
+          as: "dressType",
+        },
+      },
+      {
+        $unwind: "$dressType",
+      },
+      {
+        $project: {
+          _id: 1,
+          deliveryDays: 1,
+          orderStatus: 1,
+          note: 1,
+          orderDate: 1,
+          deliveredOn: 1,
+          customer: "$customer.name",
+          dressType: "$dressType.name",
+          cost: "$dressType.cost",
+          user: "$user.name",
+        },
+      },
+    ])
+      .then((orders) => {
+        if (!orders) {
+          errors.noorders = "No orders";
+          return res.status(404).json(errors);
+        }
+        res.json(orders);
+      })
+      .catch((err) => res.status(404).json({ orders: "There is no orders" }));
+  }
+);
+
 //@route	POST api/orders/create
 //@desc		post customer
 //@access	private
@@ -143,6 +220,7 @@ router.post(
       deliveryDays: req.body.deliveryDays,
       orderStatus: req.body.orderStatus,
       note: req.body.note,
+      deliveredOn: null,
     });
     newOrder
       .save()
@@ -160,10 +238,7 @@ router.post(
   (req, res) => {
     const id = new mongoose.Types.ObjectId(req.body._id);
 
-    //Check Validation
-    // if(!isValid){
-    // 	return res.status(400).json(errors);
-    // }
+    console.log(req.body);
 
     Order.updateOne(
       { _id: id },
@@ -172,13 +247,14 @@ router.post(
           note: req.body.note,
           deliveryDays: req.body.deilveryDays,
           orderStatus: req.body.orderStatus,
+          deliveredOn: req.body.deliveredOn,
         },
       }
     )
       .then((order) => res.json(order))
-      .catch((err) =>
-        res.status(404).json({ order: "Unable to update order" })
-      );
+      .catch((err) => {
+        res.status(404).json({ order: "Unable to update order" });
+      });
   }
 );
 
