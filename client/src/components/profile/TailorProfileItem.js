@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "mongoose";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 

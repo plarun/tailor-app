@@ -131,7 +131,6 @@ router.get(
   "/delivered",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const id = new mongoose.Types.ObjectId(req.query.user);
     Order.aggregate([
       {
         $match: {
@@ -303,5 +302,99 @@ router.post("/get-customer", (req, res) => {
     res.json(customer);
   });
 });
+
+router.get(
+  "/stats",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // format date
+    const formatDate = (date) => {
+      const newDate = new Date(date);
+      let formattedDate = `${newDate.getFullYear()}-`;
+      formattedDate += `${`0${newDate.getMonth() + 1}`.slice(-2)}-`;
+      formattedDate += `${`0${newDate.getDate()}`.slice(-2)}`;
+      return formattedDate;
+    };
+
+    const statsDate = formatDate(req.query.statsDate);
+    const userid = new mongoose.Types.ObjectId(req.query.user);
+
+    Order.aggregate([
+      {
+        $addFields: {
+          orderedDate: {
+            $dateToString: { format: "%Y-%m-%d", date: "$orderDate" },
+          },
+        },
+      },
+      { $match: { user: userid, orderedDate: { $eq: statsDate } } },
+      { $count: "OrdersCount" },
+      {
+        $unionWith: {
+          coll: "orders",
+          pipeline: [
+            {
+              $addFields: {
+                deliveredDate: {
+                  $dateToString: { format: "%Y-%m-%d", date: "$deliveredOn" },
+                },
+              },
+            },
+            { $match: { user: userid, deliveredDate: { $eq: statsDate } } },
+            { $count: "DeliveredCount" },
+          ],
+        },
+      },
+      {
+        $unionWith: {
+          coll: "orders",
+          pipeline: [
+            {
+              $match: {
+                user: userid,
+                orderStatus: { $in: ["New Order", "Inprogress", "Completed"] },
+              },
+            },
+            { $group: { _id: "$orderStatus", count: { $sum: 1 } } },
+          ],
+        },
+      },
+    ])
+      .then((stats) => {
+        if (!stats) {
+          errors.noorders = "No stats";
+          return res.status(404).json(errors);
+        }
+
+        const orderStats = {
+          ordersCount: 0,
+          deliveredCount: 0,
+          inprogressCount: 0,
+          newOrderCount: 0,
+          completedCount: 0,
+        };
+
+        for (const val of stats) {
+          if (val._id && val._id === "Inprogress") {
+            orderStats.inprogressCount = val.count;
+          } else if (val._id && val._id === "New Order") {
+            orderStats.newOrderCount = val.count;
+          } else if (val._id && val._id === "Completed") {
+            orderStats.completedCount = val.count;
+          } else if (val.OrdersCount) {
+            orderStats.ordersCount = val.OrdersCount;
+          } else if (val.DeliveredCount) {
+            orderStats.deliveredCount = val.DeliveredCount;
+          }
+        }
+
+        res.json(orderStats);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(404).json({ orders: "No Stats" });
+      });
+  }
+);
 
 module.exports = router;

@@ -17,3 +17,5 @@ export const LOAD_CUSTOMER = "LOAD_CUSTOMER";
 export const CUSTOMER_LOADING = "CUSTOMER_LOADING";
 export const LOAD_ORDER = "LOAD_ORDER";
 export const ORDER_LOADING = "ORDER_LOADING";
+export const LOAD_STATS = "LOAD_STATS";
+export const GET_STATS = "GET_STATS";

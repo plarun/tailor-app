@@ -1,18 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretDown,
-  faCaretUp,
-  faEdit,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
 
 import { loadOrder, deleteOrder } from "../../actions/orderActions";
-
-import NotePanel from "./NotePanel";
 
 class Order extends Component {
   constructor() {

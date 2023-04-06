@@ -85,11 +85,11 @@ class Order extends Component {
     const deliveryDate = formatDate(order.orderDate, order.deliveryDays);
 
     let statusBadge = "";
-    if (order.orderStatus == "New Order") {
+    if (order.orderStatus === "New Order") {
       statusBadge = "badge badge-pill badge-danger";
-    } else if (order.orderStatus == "Inprogress") {
+    } else if (order.orderStatus === "Inprogress") {
       statusBadge = "badge badge-pill badge-warning";
-    } else if (order.orderStatus == "Completed") {
+    } else if (order.orderStatus === "Completed") {
       statusBadge = "badge badge-pill badge-success";
     }
 

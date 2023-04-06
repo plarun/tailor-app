@@ -3,8 +3,6 @@ import {
   GET_TAILORS_PROFILE,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
-  SET_CURRENT_USER,
-  GET_ERRORS,
 } from "./types";
 
 // Get all tailor profiles

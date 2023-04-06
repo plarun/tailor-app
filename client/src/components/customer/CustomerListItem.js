@@ -37,7 +37,7 @@ class CustomerListItem extends Component {
     const customers = this.props.customers
       .filter(
         (customer) =>
-          this.state.query == "" ||
+          this.state.query === "" ||
           customer.name.toLowerCase().startsWith(this.state.query.toLowerCase())
       )
       .map((customer) => <Customer customer={customer} key={customer._id} />);

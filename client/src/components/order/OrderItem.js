@@ -72,44 +72,38 @@ class OrderItem extends Component {
   render() {
     const filter = (
       <div className="dropright show">
-        <a
+        <button
           className="btn dropdown-toggle"
-          href="#"
-          role="button"
           id="filterStatus"
           data-toggle="dropdown"
         >
           <span className="font-weight-bold">Status </span>
-        </a>
+        </button>
         <div className="dropdown-menu">
-          <a
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "All")}
           >
             All
-          </a>
-          <a
+          </button>
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "New Order")}
           >
             New Order
-          </a>
-          <a
+          </button>
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "Inprogress")}
           >
             Inprogress
-          </a>
-          <a
+          </button>
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "Completed")}
           >
             Completed
-          </a>
+          </button>
         </div>
       </div>
     );
@@ -170,10 +164,10 @@ class OrderItem extends Component {
     const orders = this.state.orderList
       .filter(
         (order) =>
-          (this.state.filter.orderStatus == "All" ||
-            this.state.filter.orderStatus == order.orderStatus) &&
-          order.orderStatus != "Delivered" &&
-          (this.state.query == "" ||
+          (this.state.filter.orderStatus === "All" ||
+            this.state.filter.orderStatus === order.orderStatus) &&
+          order.orderStatus !== "Delivered" &&
+          (this.state.query === "" ||
             order.customer
               .toLowerCase()
               .startsWith(this.state.query.toLowerCase()))

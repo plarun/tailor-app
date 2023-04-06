@@ -32,7 +32,7 @@ class DresslistItem extends Component {
     const dresslist = this.props.dresslist
       .filter(
         (dress) =>
-          this.state.query == "" ||
+          this.state.query === "" ||
           dress.name.toLowerCase().startsWith(this.state.query.toLowerCase())
       )
       .map((dress) => (

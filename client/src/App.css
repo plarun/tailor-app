@@ -4,7 +4,7 @@ img {
 
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat;
+  background: url("./img/showcase.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -36,4 +36,10 @@ img {
 
 .form-control::placeholder {
   color: #bbb !important;
+}
+
+.react-datepicker-wrapper input[type="text"] {
+  border: none;
+  width: 100%;
+  text-align: right;
 }

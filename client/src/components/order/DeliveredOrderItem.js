@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faSortAsc,
-  faSortDesc,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { faSortAsc, faSortDesc } from "@fortawesome/free-solid-svg-icons";
 
 import DeliveredOrder from "./DeliveredOrder";
 
@@ -70,37 +65,35 @@ class DeliveredOrderItem extends Component {
   render() {
     const filter = (
       <div className="dropdown show">
-        <a
+        <button
           className="btn btn-primary dropdown-toggle"
-          href="#"
-          role="button"
           id="filterStatus"
           data-toggle="dropdown"
         >
-          <span className="font-weight-bold">{this.state.filterColumn} </span>
-        </a>
+          <span className="font-weight-bold">
+            {this.state.filterColumn.charAt(0).toUpperCase() +
+              this.state.filterColumn.slice(1)}{" "}
+          </span>
+        </button>
         <div className="dropdown-menu">
-          <a
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "customer")}
           >
             Customer
-          </a>
-          <a
+          </button>
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "tailor")}
           >
             Tailor
-          </a>
-          <a
+          </button>
+          <button
             className="dropdown-item"
-            href="#"
             onClick={this.onSetFilter.bind(this, "dress")}
           >
             Dress
-          </a>
+          </button>
         </div>
       </div>
     );
@@ -172,24 +165,24 @@ class DeliveredOrderItem extends Component {
 
     const orders = this.state.orderList
       .filter((order) => {
-        if (this.state.filterColumn == "Filter") {
+        if (this.state.filterColumn === "Filter") {
           return true;
         }
-        if (this.state.filterColumn == "customer") {
+        if (this.state.filterColumn === "customer") {
           return (
-            this.state.query == "" ||
+            this.state.query === "" ||
             order.customer
               .toLowerCase()
               .startsWith(this.state.query.toLowerCase())
           );
-        } else if (this.state.filterColumn == "tailor") {
+        } else if (this.state.filterColumn === "tailor") {
           return (
-            this.state.query == "" ||
+            this.state.query === "" ||
             order.user.toLowerCase().startsWith(this.state.query.toLowerCase())
           );
-        } else if (this.state.filterColumn == "dress") {
+        } else if (this.state.filterColumn === "dress") {
           return (
-            this.state.query == "" ||
+            this.state.query === "" ||
             order.dressType
               .toLowerCase()
               .startsWith(this.state.query.toLowerCase())

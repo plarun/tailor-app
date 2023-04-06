@@ -5,6 +5,7 @@ import profileReducer from "./profileReducer";
 import dresslistReducer from "./dresslistReducer";
 import customerReducer from "./customerReducer";
 import orderReducer from "./orderReducer";
+import statsReducer from "./statsReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   dress: dresslistReducer,
   cust: customerReducer,
   order: orderReducer,
+  stats: statsReducer,
 });
