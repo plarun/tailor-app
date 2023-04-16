@@ -8,12 +8,10 @@ const validateOrderInput = require("../../validation/order");
 
 //Order Model
 const Order = require("../../models/Order");
-// User Model
-const User = require("../../models/User");
 // Customer Model
 const Customer = require("../../models/Customer");
-// Dresslist Model
-const Dresslist = require("../../models/Dresslist");
+// Counter Model
+const Counter = require("../../models/Counter");
 
 // @route   GET api/orders/user/:user_id
 // @desc    Get orders by user ID
@@ -106,10 +104,12 @@ router.get(
       {
         $project: {
           _id: 1,
+          orderId: 1,
           deliveryDays: 1,
           orderStatus: 1,
           note: 1,
           orderDate: 1,
+          dueDate: 1,
           customer: "$customer.name",
           dressType: "$dressType.name",
           cost: "$dressType.cost",
@@ -175,10 +175,12 @@ router.get(
       {
         $project: {
           _id: 1,
+          orderId: 1,
           deliveryDays: 1,
           orderStatus: 1,
           note: 1,
           orderDate: 1,
+          dueDate: 1,
           deliveredOn: 1,
           customer: "$customer.name",
           dressType: "$dressType.name",
@@ -212,19 +214,31 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    const newOrder = new Order({
-      customer: req.body.customer,
-      user: req.body.user,
-      dressType: req.body.dressType,
-      deliveryDays: req.body.deliveryDays,
-      orderStatus: req.body.orderStatus,
-      note: req.body.note,
-      deliveredOn: null,
-    });
-    newOrder
-      .save()
-      .then((orders) => res.json(orders))
-      .catch((err) => console.log(err));
+    // get next order id seq
+    Counter.findByIdAndUpdate(
+      { _id: "orderId" },
+      { $inc: { seq: 1 } },
+      function (err, counter) {
+        if (err) {
+          console.log("error: ", err);
+        }
+        console.log(counter);
+        const newOrder = new Order({
+          customer: req.body.customer,
+          orderId: counter.seq,
+          user: req.body.user,
+          dressType: req.body.dressType,
+          dueDate: req.body.dueDate,
+          orderStatus: req.body.orderStatus,
+          note: req.body.note,
+          deliveredOn: null,
+        });
+        newOrder
+          .save()
+          .then((orders) => res.json(orders))
+          .catch((err) => console.log(err));
+      }
+    );
   }
 );
 
@@ -244,7 +258,7 @@ router.post(
       {
         $set: {
           note: req.body.note,
-          deliveryDays: req.body.deilveryDays,
+          dueDate: req.body.dueDate,
           orderStatus: req.body.orderStatus,
           deliveredOn: req.body.deliveredOn,
         },

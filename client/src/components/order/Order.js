@@ -82,7 +82,7 @@ class Order extends Component {
     };
 
     const orderDate = formatDate(order.orderDate, 0);
-    const deliveryDate = formatDate(order.orderDate, order.deliveryDays);
+    const deliveryDate = formatDate(order.dueDate, 0);
 
     let statusBadge = "";
     if (order.orderStatus === "New Order") {
@@ -93,10 +93,15 @@ class Order extends Component {
       statusBadge = "badge badge-pill badge-success";
     }
 
-    const now = new Date();
     let dueDateStatusIcon = null;
-    const diff = new Date(deliveryDate).getDate() - now.getDate();
-    if (diff <= 2 && diff >= 0) {
+
+    const dueOn = new Date(deliveryDate);
+    const today = new Date();
+    const diff = dueOn - today;
+    const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 2 && diffDays >= 0) {
+      // due date is near
       dueDateStatusIcon = (
         <FontAwesomeIcon
           icon={faExclamationTriangle}
@@ -104,7 +109,8 @@ class Order extends Component {
           color="orange"
         />
       );
-    } else if (diff < 0) {
+    } else if (diffDays < 0) {
+      // beyond due date
       dueDateStatusIcon = (
         <FontAwesomeIcon
           icon={faExclamationTriangle}
@@ -120,12 +126,13 @@ class Order extends Component {
         key={order._id}
       >
         <div className={"row " + panelColor}>
+          <div className="col-1">{order.orderId}</div>
           <div className="col-2">{order.customer}</div>
           <div className="col-2">{order.dressType}</div>
           <div className="col-1">{order.cost}</div>
-          <div className="col-2">{orderDate}</div>
-          <div className="col-2">{deliveryDate}</div>
-          <div className="col-1">
+          <div className="col-1">{orderDate}</div>
+          <div className="col-1">{deliveryDate}</div>
+          <div className="col-2">
             <span className={statusBadge}>{order.orderStatus}</span>
           </div>
           <div className="col-2 row">

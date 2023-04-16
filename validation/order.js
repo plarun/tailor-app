@@ -7,7 +7,6 @@ module.exports = function validateOrderInput(data) {
   console.log(data);
 
   data.orderStatus = !isEmpty(data.orderStatus) ? data.orderStatus : "";
-  data.deliveryDays = !isEmpty(data.deliveryDays) ? data.deliveryDays : 0;
   data.dressType = !isEmpty(data.dressType) ? data.dressType : "";
   data.customer = !isEmpty(data.customer) ? data.customer : "";
   data.user = !isEmpty(data.user) ? data.user : "";
@@ -18,10 +17,6 @@ module.exports = function validateOrderInput(data) {
 
   if (Validator.isEmpty(data.orderStatus)) {
     errors.orderStatus = "Order status field is required";
-  }
-
-  if (Validator.isEmpty(data.deliveryDays)) {
-    errors.deliveryDays = "Delivery days feild is required";
   }
 
   if (Validator.isEmpty(data.dressType)) {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import SelectListGroup from "../common/SelectListGroup";
-import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -9,12 +8,13 @@ import Spinner from "../common/Spinner";
 import { updateOrder } from "../../actions/orderActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import DatePicker from "react-datepicker";
 
 class EditOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deliveryDays: 0,
+      dueDate: new Date(),
       orderStatus: "New Order",
       note: "",
       errors: {},
@@ -25,6 +25,7 @@ class EditOrder extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChecked = this.onChecked.bind(this);
+    this.setDate = this.setDate.bind(this);
   }
 
   componentDidMount() {
@@ -33,8 +34,12 @@ class EditOrder extends Component {
 
       this.setState({ note: order.note });
       this.setState({ orderStatus: order.orderStatus });
-      this.setState({ deliveryDays: order.deliveryDays });
+      this.setState({ dueDate: new Date(order.dueDate) });
     }
+  }
+
+  setDate(date) {
+    this.setState({ dueDate: date });
   }
 
   onChecked(e) {
@@ -61,7 +66,7 @@ class EditOrder extends Component {
       _id: order._id,
       note: this.state.note,
       orderStatus: orderStatus,
-      deilveryDays: this.state.deliveryDays,
+      dueDate: this.state.dueDate,
       deliveredOn: deliveredOn,
     };
 
@@ -106,13 +111,27 @@ class EditOrder extends Component {
               options={options}
               error={errors.orderStatus}
             />
-            <TextFieldGroup
+            {/* <TextFieldGroup
               placeholder="* Extend days"
               name="deliveryDays"
               value={this.state.deliveryDays}
               onChange={this.onChange}
               error={errors.deliveryDays}
-            />
+            /> */}
+            <div className="form-group row">
+              <label htmlFor="dueDate" className="col-sm-2 col-form-label">
+                DueDate
+              </label>
+              <div className="col">
+                <DatePicker
+                  className="col form-control border border-secondary rounded"
+                  id="dueDate"
+                  dateFormat="dd-MM-yyyy"
+                  selected={this.state.dueDate}
+                  onSelect={(date) => this.setDate(date)}
+                />
+              </div>
+            </div>
             <div className="form-check">
               <input
                 className="form-check-input"

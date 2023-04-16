@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../common/Spinner";
+import DatePicker from "react-datepicker";
 
 import SelectListGroup from "../common/SelectListGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -21,7 +22,7 @@ class AddOrder extends Component {
       dressTypes: [],
       customerPhone: "",
       dressType: "",
-      deliveryDays: 0,
+      dueDate: new Date(),
       orderStatus: "New Order",
       note: "",
       errors: {},
@@ -30,6 +31,7 @@ class AddOrder extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.setDate = this.setDate.bind(this);
 
     this.onFetchCust = this.onFetchCust.bind(this);
   }
@@ -63,6 +65,10 @@ class AddOrder extends Component {
     this.props.getDresslists();
   }
 
+  setDate(date) {
+    this.setState({ dueDate: date });
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -74,7 +80,7 @@ class AddOrder extends Component {
       customer: this.props.order.customer[0]._id,
       user: this.props.auth.user.id,
       dressType: this.state.dressType,
-      deliveryDays: this.state.deliveryDays,
+      dueDate: this.state.dueDate,
       orderStatus: this.state.orderStatus,
       note: this.state.note,
     };
@@ -165,13 +171,27 @@ class AddOrder extends Component {
               onChange={this.onChange}
               error={errors.note}
             />
-            <TextFieldGroup
+            {/* <TextFieldGroup
               placeholder="Deliverable in days"
               name="deliveryDays"
               value={this.state.deliveryDays}
               onChange={this.onChange}
               error={errors.deliveryDays}
-            />
+            /> */}
+            <div className="form-group row">
+              <label htmlFor="dueDate" className="col-sm-2 col-form-label">
+                DueDate
+              </label>
+              <div className="col">
+                <DatePicker
+                  className="col form-control border border-secondary rounded"
+                  id="dueDate"
+                  dateFormat="dd-MM-yyyy"
+                  selected={this.state.dueDate}
+                  onSelect={(date) => this.setDate(date)}
+                />
+              </div>
+            </div>
             <input
               type="submit"
               value="Submit"

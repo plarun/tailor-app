@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const OrderSchema = new Schema({
+  orderId: {
+    type: Number,
+    required: true,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "users",
@@ -19,9 +23,9 @@ const OrderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  deliveryDays: {
-    type: Number,
-    required: true,
+  dueDate: {
+    type: Date,
+    default: Date.now,
   },
   orderStatus: {
     type: String,
