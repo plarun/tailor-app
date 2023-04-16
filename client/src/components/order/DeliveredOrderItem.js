@@ -102,6 +102,20 @@ class DeliveredOrderItem extends Component {
       <li className="list-group-item border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-2">
         <div className={"row"}>
           <div
+            className="col-1 font-weight-bold my-auto"
+            onClick={this.applySort.bind(this, "orderId")}
+            role="button"
+          >
+            Order#
+            {this.state.sort.hasOwnProperty("orderId") ? (
+              this.state.sort.orderId ? (
+                <FontAwesomeIcon icon={faSortAsc} className="ml-2" />
+              ) : (
+                <FontAwesomeIcon icon={faSortDesc} className="ml-2" />
+              )
+            ) : null}
+          </div>
+          <div
             className="col-2 font-weight-bold my-auto"
             onClick={this.applySort.bind(this, "customer")}
             role="button"
@@ -143,7 +157,7 @@ class DeliveredOrderItem extends Component {
               )
             ) : null}
           </div>
-          <div className="col-2 font-weight-bold my-auto">Cost</div>
+          <div className="col-1 font-weight-bold my-auto">Cost</div>
           <div
             className="col-2 font-weight-bold my-auto"
             onClick={this.applyDateSort.bind(this, "orderDate")}
@@ -158,7 +172,20 @@ class DeliveredOrderItem extends Component {
               )
             ) : null}
           </div>
-          <div className="col-2 font-weight-bold my-auto">Delivered On</div>
+          <div
+            className="col-2 font-weight-bold my-auto"
+            onClick={this.applyDateSort.bind(this, "deliveredDate")}
+            role="button"
+          >
+            Delivered On
+            {this.state.sort.hasOwnProperty("deliveredDate") ? (
+              this.state.sort.deliveredDate ? (
+                <FontAwesomeIcon icon={faSortAsc} className="ml-2" />
+              ) : (
+                <FontAwesomeIcon icon={faSortDesc} className="ml-2" />
+              )
+            ) : null}
+          </div>
         </div>
       </li>
     );

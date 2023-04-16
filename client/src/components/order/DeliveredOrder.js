@@ -58,10 +58,11 @@ class Order extends Component {
         key={order._id}
       >
         <div className={"row"}>
+          <div className="col-1">{order.orderId}</div>
           <div className="col-2">{order.customer}</div>
           <div className="col-2">{order.user}</div>
           <div className="col-2">{order.dressType}</div>
-          <div className="col-2">{order.cost}</div>
+          <div className="col-1">{order.cost}</div>
           <div className="col-2">{orderDate}</div>
           <div className="col-2">{deliveredDate}</div>
         </div>

@@ -51,7 +51,7 @@ class CustomerListItem extends Component {
           <div className="col-md-6">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Search Customer"
               value={this.state.query}
               onChange={this.onChange}
