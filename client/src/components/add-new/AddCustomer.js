@@ -4,7 +4,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { createCustomers } from "../../actions/customerActions";
+import { createCustomer } from "../../actions/customerActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -74,7 +74,7 @@ class CreateCustomers extends Component {
       ankle: this.state.ankle,
     };
 
-    this.props.createCustomers(customerItem, this.props.history);
+    this.props.createCustomer(customerItem, this.props.history);
   }
   render() {
     const { errors } = this.state;
@@ -351,7 +351,7 @@ class CreateCustomers extends Component {
 }
 
 CreateCustomers.propTypes = {
-  createCustomers: PropTypes.func.isRequired,
+  createCustomer: PropTypes.func.isRequired,
   cust: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -361,6 +361,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createCustomers })(
+export default connect(mapStateToProps, { createCustomer })(
   withRouter(CreateCustomers)
 );

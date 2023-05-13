@@ -13,7 +13,7 @@ import {
 // Add new order
 export const addOrder = (order, history) => (dispatch) => {
   axios
-    .post("http://localhost:5000/api/orders/create", order)
+    .post("http://localhost:5000/api/orders", order)
     .then((res) => history.push("/orders"))
     .catch((err) =>
       dispatch({
@@ -25,8 +25,9 @@ export const addOrder = (order, history) => (dispatch) => {
 
 // Delete order
 export const deleteOrder = (order, history) => (dispatch) => {
+  const orderId = order._id;
   axios
-    .post("http://localhost:5000/api/orders/delete", order)
+    .delete(`http://localhost:5000/api/orders/${orderId}`, order)
     .then((res) => history.push("/orders"))
     .catch((err) =>
       dispatch({
@@ -37,10 +38,10 @@ export const deleteOrder = (order, history) => (dispatch) => {
 };
 
 // Get My orders
-export const getMyOrders = (user) => (dispatch) => {
+export const getMyOrders = (userId) => (dispatch) => {
   dispatch(setOrdersLoading());
   axios
-    .get("http://localhost:5000/api/orders/myorders", { params: { user } })
+    .get(`http://localhost:5000/api/users/${userId}/orders`) //, { params: { user } })
     .then((res) => {
       console.log(res);
       dispatch({
@@ -81,7 +82,7 @@ export const getDeliveredOrders = (user) => (dispatch) => {
 export const updateOrder = (order, history) => (dispatch) => {
   console.log("updateOrder: ", order);
   axios
-    .post("http://localhost:5000/api/orders/edit", order)
+    .patch("http://localhost:5000/api/orders", order)
     .then((res) => {
       console.log(res);
       history.push("/orders");
@@ -99,7 +100,7 @@ export const updateOrder = (order, history) => (dispatch) => {
 export const getOrders = () => (dispatch) => {
   dispatch(setOrdersLoading());
   axios
-    .get("http://localhost:5000/api/orders/all")
+    .get("http://localhost:5000/api/orders")
     .then((res) => {
       console.log(res);
       dispatch({

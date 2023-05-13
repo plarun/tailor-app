@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -11,13 +12,15 @@ const validateLoginInput = require("../../validation/login");
 
 // Load Model
 const User = require("../../models/User");
+//Order Model
+const Order = require("../../models/Order");
 
 //@route	GET api/users/test
 //@desc		Tests users route
 //@access	Public
 router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 
-//@route	POST api/users/register
+//@route	POST: /api/users/register
 //@desc		Register user
 //@access	Public
 router.post("/register", (req, res) => {
@@ -53,7 +56,7 @@ router.post("/register", (req, res) => {
   });
 });
 
-//@route	GET api/users/login
+//@route	GET: /api/users/login
 //@desc		Login User/ Returning JWT Token
 //@access	Public
 router.post("/login", (req, res) => {
@@ -101,7 +104,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-//@route	GET api/users/current
+//@route	GET: /api/users/current
 //@desc		Return Current user
 //@access	Private
 router.get(
@@ -114,6 +117,83 @@ router.get(
       email: req.user.email,
       date: req.user.date,
     });
+  }
+);
+
+// @route   GET: /api/users/:user_id/orders
+// @desc    Get all orders of the user
+// @access  Private
+router.get(
+  "/:user_id/orders",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.params);
+    const id = new mongoose.Types.ObjectId(req.params.user_id);
+    Order.aggregate([
+      {
+        $match: {
+          user: id,
+          orderStatus: {
+            $in: ["New Order", "Inprogress", "Completed"],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer",
+        },
+      },
+      {
+        $unwind: "$customer",
+      },
+      {
+        $lookup: {
+          from: "dresslists",
+          localField: "dressType",
+          foreignField: "_id",
+          as: "dressType",
+        },
+      },
+      {
+        $unwind: "$dressType",
+      },
+      {
+        $project: {
+          _id: 1,
+          orderId: 1,
+          deliveryDays: 1,
+          orderStatus: 1,
+          note: 1,
+          orderDate: 1,
+          dueDate: 1,
+          customer: "$customer.name",
+          dressType: "$dressType.name",
+          cost: "$dressType.cost",
+        },
+      },
+    ])
+      .then((orders) => {
+        if (!orders) {
+          errors.noorders = "No orders";
+          return res.status(404).json(errors);
+        }
+        res.json(orders);
+      })
+      .catch((err) => res.status(404).json({ orders: "There is no orders" }));
   }
 );
 

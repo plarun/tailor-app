@@ -9,11 +9,11 @@ const validateCustomerInput = require("../../validation/customer-input");
 // Load Customer Model
 const Customer = require("../../models/Customer");
 
-//@route	POST api/customers/create
-//@desc		post customer
+//@route	POST: /api/customers/
+//@desc		creates a customer
 //@access	private
 router.post(
-  "/create",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateCustomerInput(req.body);
@@ -64,15 +64,15 @@ router.post(
   }
 );
 
-//@route	POST api/customers/edit
+//@route	PATCH: /api/customers/:id
 //@desc		update customer
 //@access	private
-router.post(
-  "/edit",
+router.patch(
+  "/:cust_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateCustomerInput(req.body);
-    const id = new mongoose.Types.ObjectId(req.body._id);
+    const id = new mongoose.Types.ObjectId(req.params.cust_id);
 
     //Check Validation
     if (!isValid) {
@@ -112,11 +112,11 @@ router.post(
   }
 );
 
-// @route   GET api/customers/all
+// @route   GET: /api/customers/
 // @desc    Get all customers
 // @access  Public
 router.get(
-  "/all",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Customer.find()
@@ -134,8 +134,8 @@ router.get(
   }
 );
 
-// @route   GET api/customers/all
-// @desc    Get all customers
+// @route   GET: /api/customers/phone
+// @desc    Get customer by phone if exists
 // @access  Public
 router.get(
   "/phone",

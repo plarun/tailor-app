@@ -4,7 +4,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { addDressItem } from "../../actions/dresslistActions";
+import { addDress } from "../../actions/dressActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -42,7 +42,7 @@ class AddDresstypes extends Component {
       cost: this.state.cost,
     };
 
-    this.props.addDressItem(dressItem, this.props.history);
+    this.props.addDress(dressItem, this.props.history);
   }
 
   render() {
@@ -104,7 +104,7 @@ class AddDresstypes extends Component {
 }
 
 AddDresstypes.propTypes = {
-  addDressItem: PropTypes.func.isRequired,
+  addDress: PropTypes.func.isRequired,
   dress: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -114,6 +114,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { addDressItem })(
+export default connect(mapStateToProps, { addDress })(
   withRouter(AddDresstypes)
 );

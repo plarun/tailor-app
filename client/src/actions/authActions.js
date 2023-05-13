@@ -3,7 +3,7 @@ import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER, ADMIN_EXIST } from "./types";
 
-//Register User
+// Register user
 export const registerUser = (userData, history) => (dispatch) => {
   axios
     .post("http://localhost:5000/api/users/register", userData)
@@ -16,7 +16,7 @@ export const registerUser = (userData, history) => (dispatch) => {
     );
 };
 
-//Login Get User Token
+// Login user
 export const loginUser = (userData) => (dispatch) => {
   axios
     .post("http://localhost:5000/api/users/login", userData)
@@ -40,7 +40,7 @@ export const loginUser = (userData) => (dispatch) => {
     );
 };
 
-// Check if admin exists
+// Check if admin user exists
 export const IsAdminExists = () => (dispatch) => {
   axios
     .get("http://localhost:5000/api/users/admin")
@@ -58,7 +58,7 @@ export const IsAdminExists = () => (dispatch) => {
     );
 };
 
-//Register User
+// Register admin user
 export const AdminRegister = (user, history) => (dispatch) => {
   axios
     .post("http://localhost:5000/api/users/admin-register", user)
@@ -71,7 +71,7 @@ export const AdminRegister = (user, history) => (dispatch) => {
     );
 };
 
-//Login Get User Token
+// Login admin user
 export const AdminLogin = (user) => (dispatch) => {
   axios
     .post("http://localhost:5000/api/users/admin-login", user)

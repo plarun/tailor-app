@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import setUserAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
-import { getDresslists } from "./actions/dresslistActions";
+import { getDresses } from "./actions/dressActions";
 import { getCustomers } from "./actions/customerActions";
 import { getOrders } from "./actions/orderActions";
 
@@ -52,7 +52,7 @@ if (localStorage.jwtToken) {
     // Clear current Profile
     store.dispatch(clearCurrentProfile());
     // Get dress lists
-    store.dispatch(getDresslists());
+    store.dispatch(getDresses());
     store.dispatch(getCustomers());
     store.dispatch(getOrders());
     // Redirect to login

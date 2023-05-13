@@ -9,7 +9,7 @@ import {
 export const getTailorsProfile = () => (dispatch) => {
   dispatch(setProfileLoading());
   axios
-    .get("http://localhost:5000/api/tailors/all")
+    .get("http://localhost:5000/api/tailors")
     .then((res) => {
       console.log(res);
       dispatch({

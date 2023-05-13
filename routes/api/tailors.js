@@ -6,11 +6,11 @@ const passport = require("passport");
 // Load Model
 const User = require("../../models/User");
 
-//@route	GET api/tailor/all
-//@desc		Get all tailors
+//@route	GET: /api/tailors/
+//@desc		Get all tailors profile
 //@access	Private
 router.get(
-  "/all",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.find()
@@ -27,15 +27,15 @@ router.get(
   }
 );
 
-// @route   DELETE api/tailor
+// @route   DELETE: /api/tailors/:id
 // @desc    Delete tailor profile
 // @access  Private
 router.delete(
-  "/",
+  "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.findOneAndRemove({ user: req.user.id }).then(() => {
-      User.findOneAndRemove({ _id: req.user.id }).then(() =>
+    User.findOneAndRemove({ user: req.params.id }).then(() => {
+      User.findOneAndRemove({ _id: req.params.id }).then(() =>
         res.json({ success: true })
       );
     });

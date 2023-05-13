@@ -9,11 +9,11 @@ const validateDresstypeInput = require("../../validation/dresstype");
 // Load Dresslist Model
 const Dresslist = require("../../models/Dresslist");
 
-//@route	POST api/dresslists/create
-//@desc		post all dresslists
+//@route	POST: /api/dresses/
+//@desc		create a dress
 //@access	private
 router.post(
-  "/create",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateDresstypeInput(req.body);
@@ -42,11 +42,11 @@ router.post(
   }
 );
 
-//@route	GET api/dresslists/all
-//@desc		Get all dresslists
+//@route	GET: /api/dresses/
+//@desc		Get all dresses
 //@access	Public
 router.get(
-  "/all",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Dresslist.find()
@@ -64,7 +64,7 @@ router.get(
   }
 );
 
-//@route	POST api/dresslists/delete
+//@route	DELETE: /api/dresses/:id
 //@desc		delete dress
 //@access	private
 router.delete(

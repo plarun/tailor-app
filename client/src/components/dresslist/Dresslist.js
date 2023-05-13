@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../common/Spinner";
 import DresslistItem from "./DresslistItem";
-import { getDresslists } from "../../actions/dresslistActions";
+import { getDresses } from "../../actions/dressActions";
 
 class Dresslist extends Component {
   constructor(props) {
@@ -13,11 +13,11 @@ class Dresslist extends Component {
   }
 
   componentDidMount() {
-    this.props.getDresslists();
+    this.props.getDresses();
   }
 
   refreshDress() {
-    this.props.getDresslists();
+    this.props.getDresses();
   }
 
   render() {
@@ -50,7 +50,7 @@ class Dresslist extends Component {
 }
 
 Dresslist.propTypes = {
-  getDresslists: PropTypes.func.isRequired,
+  getDresses: PropTypes.func.isRequired,
   dress: PropTypes.object.isRequired,
 };
 
@@ -58,4 +58,4 @@ const mapStateToProps = (state) => ({
   dress: state.dress,
 });
 
-export default connect(mapStateToProps, { getDresslists })(Dresslist);
+export default connect(mapStateToProps, { getDresses })(Dresslist);

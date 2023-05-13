@@ -9,7 +9,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addOrder } from "../../actions/orderActions";
-import { getDresslists } from "../../actions/dresslistActions";
+import { getDresses } from "../../actions/dressActions";
 import { getCustomerByPhone } from "../../actions/customerActions";
 import { clearOrderCustomer } from "../../actions/orderActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -62,7 +62,7 @@ class AddOrder extends Component {
 
   componentDidMount() {
     this.props.clearOrderCustomer();
-    this.props.getDresslists();
+    this.props.getDresses();
   }
 
   setDate(date) {
@@ -231,7 +231,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   addOrder,
-  getDresslists,
+  getDresses,
   getCustomerByPhone,
   clearOrderCustomer,
 })(withRouter(AddOrder));

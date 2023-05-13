@@ -9,11 +9,11 @@ import {
   CUSTOMER_LOADING,
 } from "./types";
 
-// Get all tailor profiles
+// Get all customers
 export const getCustomers = () => (dispatch) => {
   dispatch(setCustomersLoading());
   axios
-    .get("http://localhost:5000/api/customers/all")
+    .get("http://localhost:5000/api/customers")
     .then((res) => {
       console.log(res);
       dispatch({
@@ -30,9 +30,10 @@ export const getCustomers = () => (dispatch) => {
     });
 };
 
-export const createCustomers = (customer, history) => (dispatch) => {
+// Create a new customer
+export const createCustomer = (customer, history) => (dispatch) => {
   axios
-    .post("http://localhost:5000/api/customers/create", customer)
+    .post("http://localhost:5000/api/customers", customer)
     .then((res) => history.push("/customers"))
     .catch((err) =>
       dispatch({
@@ -42,10 +43,12 @@ export const createCustomers = (customer, history) => (dispatch) => {
     );
 };
 
-export const updateCustomer = (customer, history) => (dispatch) => {
-  console.log("updateCustomer: ", customer);
+// Update fields of existing customer
+export const updateCustomer = (fields, history) => (dispatch) => {
+  console.log("updateCustomer: ", fields);
+  const custId = fields._id;
   axios
-    .post("http://localhost:5000/api/customers/edit", customer)
+    .patch(`http://localhost:5000/api/customers/${custId}`, fields)
     .then((res) => {
       console.log(res);
       history.push("/customers");
@@ -59,6 +62,7 @@ export const updateCustomer = (customer, history) => (dispatch) => {
     });
 };
 
+// Get customer by phone number if exists
 export const getCustomerByPhone = (phone) => (dispatch) => {
   dispatch(setCustomersLoading());
   axios

@@ -13,33 +13,11 @@ const Customer = require("../../models/Customer");
 // Counter Model
 const Counter = require("../../models/Counter");
 
-// @route   GET api/orders/user/:user_id
-// @desc    Get orders by user ID
-// @access  Public
-
-router.get("/user/:user_id", (req, res) => {
-  const errors = {};
-
-  Order.find({ user: req.params.user_id })
-    // .populate('user', ['name', 'email'])
-    .then((orders) => {
-      if (!orders) {
-        errors.noorders = "There is no orders for this tailor";
-        res.status(404).json(errors);
-      }
-
-      res.json(orders);
-    })
-    .catch((err) =>
-      res.status(404).json({ orders: "There is no orders for this tailors" })
-    );
-});
-
-// @route   GET api/orders/all
+// @route   GET: /api/orders/
 // @desc    Get all orders
 // @access  Private
 router.get(
-  "/all",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Order.find()
@@ -54,79 +32,9 @@ router.get(
   }
 );
 
-router.get(
-  "/myorders",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    const id = new mongoose.Types.ObjectId(req.query.user);
-    Order.aggregate([
-      {
-        $match: {
-          user: id,
-          orderStatus: {
-            $in: ["New Order", "Inprogress", "Completed"],
-          },
-        },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "user",
-        },
-      },
-      {
-        $unwind: "$user",
-      },
-      {
-        $lookup: {
-          from: "customers",
-          localField: "customer",
-          foreignField: "_id",
-          as: "customer",
-        },
-      },
-      {
-        $unwind: "$customer",
-      },
-      {
-        $lookup: {
-          from: "dresslists",
-          localField: "dressType",
-          foreignField: "_id",
-          as: "dressType",
-        },
-      },
-      {
-        $unwind: "$dressType",
-      },
-      {
-        $project: {
-          _id: 1,
-          orderId: 1,
-          deliveryDays: 1,
-          orderStatus: 1,
-          note: 1,
-          orderDate: 1,
-          dueDate: 1,
-          customer: "$customer.name",
-          dressType: "$dressType.name",
-          cost: "$dressType.cost",
-        },
-      },
-    ])
-      .then((orders) => {
-        if (!orders) {
-          errors.noorders = "No orders";
-          return res.status(404).json(errors);
-        }
-        res.json(orders);
-      })
-      .catch((err) => res.status(404).json({ orders: "There is no orders" }));
-  }
-);
-
+// @route   GET: /api/orders/delivered
+// @desc    Get all delivered orders
+// @access  Private
 router.get(
   "/delivered",
   passport.authenticate("jwt", { session: false }),
@@ -200,11 +108,11 @@ router.get(
   }
 );
 
-//@route	POST api/orders/create
+//@route	POST: /api/orders/
 //@desc		post customer
 //@access	private
 router.post(
-  "/create",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateOrderInput(req.body);
@@ -242,11 +150,11 @@ router.post(
   }
 );
 
-//@route	POST api/orders/edit
-//@desc		update customer
+//@route	PATCH: /api/orders/
+//@desc		update order
 //@access	private
-router.post(
-  "/edit",
+router.patch(
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const id = new mongoose.Types.ObjectId(req.body._id);
@@ -271,19 +179,14 @@ router.post(
   }
 );
 
-//@route	POST api/orders/delete
+//@route	DELETE: /api/orders/:id
 //@desc		delete order
 //@access	private
-router.post(
-  "/delete",
+router.delete(
+  "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const id = new mongoose.Types.ObjectId(req.body._id);
-
-    //Check Validation
-    // if(!isValid){
-    // 	return res.status(400).json(errors);
-    // }
+    const id = new mongoose.Types.ObjectId(req.params.id);
 
     Order.deleteOne({ _id: id })
       .then((order) => res.json(order))
@@ -293,30 +196,9 @@ router.post(
   }
 );
 
-//@route	GET api/orders/get-customer
-//@desc		get customer id, name
-//@access	Private
-router.post("/get-customer", (req, res) => {
-  const { errors, isValid } = validateOrderInput(req.body);
-
-  //Check Validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-  const phone = req.body.phone;
-
-  //Find Customer by phone no
-  Customer.findOne({ phone }).then((customer) => {
-    //check for customer
-    if (!customer) {
-      errors.phone = "Phone Number does not exist";
-      return res.status(404).json(errors);
-    }
-    res.json(customer);
-  });
-});
-
+//@route	GET: /api/orders/stats
+//@desc		get statistics of orders
+//@access	private
 router.get(
   "/stats",
   passport.authenticate("jwt", { session: false }),

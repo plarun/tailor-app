@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { deleteDress } from "../../actions/dresslistActions";
+import { deleteDress } from "../../actions/dressActions";
 
 class DresslistItem extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class DresslistItem extends Component {
           <div className="col-md-6">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Search Dress"
               value={this.state.query}
               onChange={this.onChange}

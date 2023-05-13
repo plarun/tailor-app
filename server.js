@@ -7,7 +7,7 @@ const cors = require("cors");
 const users = require("./routes/api/users");
 const admin = require("./routes/api/admin");
 const tailors = require("./routes/api/tailors");
-const dresslists = require("./routes/api/dresslists");
+const dresses = require("./routes/api/dresses");
 const customers = require("./routes/api/customers");
 const orders = require("./routes/api/orders");
 
@@ -43,7 +43,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/users", admin);
 app.use("/api/tailors", tailors);
-app.use("/api/dresslists", dresslists);
+app.use("/api/dresses", dresses);
 app.use("/api/customers", customers);
 app.use("/api/orders", orders);
 

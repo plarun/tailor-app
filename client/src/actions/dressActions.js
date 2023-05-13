@@ -2,11 +2,11 @@ import axios from "axios";
 
 import { GET_ERRORS, GET_DRESSLISTS, DRESSLISTS_LOADING } from "./types";
 
-// Get all tailor profiles
-export const getDresslists = () => (dispatch) => {
+// Get all dresses
+export const getDresses = () => (dispatch) => {
   dispatch(setDresslistLoading());
   axios
-    .get("http://localhost:5000/api/dresslists/all")
+    .get("http://localhost:5000/api/dresses")
     .then((res) => {
       console.log(res);
       dispatch({
@@ -23,9 +23,9 @@ export const getDresslists = () => (dispatch) => {
     });
 };
 
-export const addDressItem = (dressItem, history) => (dispatch) => {
+export const addDress = (dress, history) => (dispatch) => {
   axios
-    .post("http://localhost:5000/api/dresslists/create", dressItem)
+    .post("http://localhost:5000/api/dresses", dress)
     .then((res) => history.push("/dress"))
     .catch((err) =>
       dispatch({
@@ -36,9 +36,9 @@ export const addDressItem = (dressItem, history) => (dispatch) => {
 };
 
 // Delete dress
-export const deleteDress = (id) => (dispatch) => {
+export const deleteDress = (dressId) => (dispatch) => {
   axios
-    .delete(`http://localhost:5000/api/dresslists/${id}`)
+    .delete(`http://localhost:5000/api/dresses/${dressId}`)
     .then((res) => console.log(res))
     .catch((err) =>
       dispatch({
