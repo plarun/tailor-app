@@ -61,7 +61,7 @@ class DresslistItem extends Component {
           <div className="col-md-4">
             <h4 className="mb-4">Dress Lists</h4>
           </div>
-          <div className="col-md-6">
+          <div className="col-md- 6">
             <input
               type="text"
               className="form-control"
